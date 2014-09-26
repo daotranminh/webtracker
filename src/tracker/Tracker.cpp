@@ -59,7 +59,7 @@ writeData(char *ptr,
 }
 
 
-DataItem
+DataItemPtr
 Tracker::getOneDataItem(const std::string &content,
                         tree<HTML::Node>::iterator &it,
                         bool gratis)
@@ -120,17 +120,17 @@ Tracker::getOneDataItem(const std::string &content,
         }
     }
   
-  DataItem di(url, title, desc, price);
+  DataItemPtr di = DataItemPtr(new DataItem(url, title, desc, price));
 
   return di;
 }
 
 
 
-Database
+DatabasePtr
 Tracker::track(bool gratis)
 {
-  Database db;
+  DatabasePtr db = DatabasePtr(new Database);
 
   std::string content = fetch();
 
@@ -143,8 +143,8 @@ Tracker::track(bool gratis)
         {
           // ToDo: check for ignore list
 
-          DataItem di = getOneDataItem(content, it, gratis);
-          db.add(di);          
+          DataItemPtr di = getOneDataItem(content, it, gratis);
+          db->add(di);          
         }
     }
 

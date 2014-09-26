@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <boost/shared_ptr.hpp>
 
 struct DataItem
 {
@@ -26,6 +27,7 @@ struct DataItem
   //Date_t      m_PublishedTime;
 };
 
-typedef std::vector<DataItem> DataItemVec;
+typedef boost::shared_ptr<DataItem> DataItemPtr;
+typedef std::vector<DataItemPtr> DataItemVec;
 
 #endif // ___DATA_ITEM_HPP___

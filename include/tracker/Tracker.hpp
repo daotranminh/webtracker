@@ -14,14 +14,14 @@ class Tracker
 public:
   Tracker(const std::string &url);
 
-  Database
+  DatabasePtr
   track(bool gratis = false);
 
 private:
   std::string
   fetch();
 
-  DataItem
+  DataItemPtr
   getOneDataItem(const std::string &content,
                  tree<HTML::Node>::iterator &it,
                  bool gratis);

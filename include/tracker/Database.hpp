@@ -1,8 +1,9 @@
 #ifndef ___DATABASE_HPP___
 #define ___DATABASE_HPP___
 
-#include "tracker/DataItem.hpp"
+#include <boost/shared_ptr.hpp>
 
+#include "tracker/DataItem.hpp"
 
 class Database
 {
@@ -10,7 +11,7 @@ public:
   Database(const std::string &name = "");
 
   void
-  add(const DataItem &di);
+  add(const DataItemPtr &di);
 
   void
   writeDatabase();
@@ -28,5 +29,8 @@ private:
   const std::string m_Name;
   DataItemVec       m_DataItems;
 };
+
+typedef boost::shared_ptr<Database> DatabasePtr;
+
 
 #endif // ___DATABASE_HPP___

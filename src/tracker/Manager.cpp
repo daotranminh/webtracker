@@ -23,8 +23,8 @@ Manager::trackSingleSite(const std::string &url,
   // For now, we just have a tracker for willhaben.at
 
   Tracker tk(url);
-  Database newItems = tk.track(); // ToDo: zuverschenken!!!
-  Database oldItems(prefix);
+  DatabasePtr newItems = tk.track(); // ToDo: zuverschenken!!!
+  DatabasePtr oldItems = DatabasePtr(new Database(prefix));
 
   // compare items to find the real new ones.
 }

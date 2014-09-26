@@ -13,7 +13,7 @@ Database::Database(const std::string &name)
 
 
 void
-Database::add(const DataItem &di)
+Database::add(const DataItemPtr &di)
 {
   m_DataItems.push_back(di);
 }
@@ -30,17 +30,18 @@ Database::writeDatabase()
     {
       for (DataItemVec::const_iterator it = m_DataItems.begin(); it != m_DataItems.end(); ++it)
         {
+          const DataItemPtr &di = *it;
           file_db << config->beginURL() << std::endl
-                  << it->m_URL << std::endl
+                  << di->m_URL << std::endl
                   << config->endURL() << std::endl
                   << config->beginTitle() << std::endl
-                  << it->m_Title << std::endl
+                  << di->m_Title << std::endl
                   << config->endTitle() << std::endl
                   << config->beginDesc() << std::endl
-                  << it->m_Description << std::endl
+                  << di->m_Description << std::endl
                   << config->endDesc() << std::endl
                   << config->beginPrice() << std::endl
-                  << it->m_Price << std::endl
+                  << di->m_Price << std::endl
                   << config->endPrice() << std::endl;
         }
     }
@@ -92,7 +93,7 @@ Database::loadDatabase()
           std::string str_price = readContent(file_db, config->beginPrice(), config->endPrice());
           float price = ::atof(str_price.c_str());
 
-          DataItem di(url, title, desc, price);
+          DataItemPtr di = DataItemPtr(new DataItem(url, title, desc, price));
           m_DataItems.push_back(di);
         }
     }
