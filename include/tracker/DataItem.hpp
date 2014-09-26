@@ -19,6 +19,7 @@ struct DataItem
   bool
   operator==(const DataItem &other);
 
+  bool        m_IsNew;
   std::string m_URL;
   std::string m_Title;
   std::string m_Description;

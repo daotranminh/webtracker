@@ -27,4 +27,7 @@ Manager::trackSingleSite(const std::string &url,
   DatabasePtr oldItems = DatabasePtr(new Database(prefix));
 
   // compare items to find the real new ones.
+  newItems->compare(oldItems);
+  newItems->show(true);
+  newItems->writeDatabase();
 }

@@ -5,7 +5,8 @@ DataItem:: DataItem(const std::string &url,
                     const std::string &title,
                     const std::string &description,
                     const float &price)
-  : m_URL(url),
+  : m_IsNew(false),
+    m_URL(url),
     m_Title(title),
     m_Description(description),
     m_Price(price)

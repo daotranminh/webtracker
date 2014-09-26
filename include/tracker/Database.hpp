@@ -16,6 +16,15 @@ public:
   void
   writeDatabase();
 
+  bool
+  exists(const DataItemPtr &di);
+
+  void
+  compare(const boost::shared_ptr<Database> &db);
+
+  void
+  show(bool showNew = false);
+
 private:
   void
   loadDatabase();

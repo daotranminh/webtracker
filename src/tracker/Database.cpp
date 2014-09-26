@@ -55,6 +55,49 @@ Database::writeDatabase()
 
 
 
+bool
+Database::exists(const DataItemPtr &di)
+{
+  for (DataItemVec::const_iterator it = m_DataItems.begin(); it != m_DataItems.end(); ++it)
+    {
+      const DataItemPtr &mydi = *it;
+      if (*mydi == *di) return true;
+    }
+
+  return false;
+}
+
+
+
+void
+Database::compare(const DatabasePtr &db)
+{
+    for (DataItemVec::const_iterator it = m_DataItems.begin(); it != m_DataItems.end(); ++it)
+    {
+      if (db->exists(*it))
+        {
+          const DataItemPtr &di = *it;
+           di->m_IsNew = true;
+        }
+    }
+}
+
+
+
+void
+Database::show(bool showNew)
+{
+  for (DataItemVec::const_iterator it = m_DataItems.begin(); it != m_DataItems.end(); ++it)
+    {
+      const DataItemPtr &di = *it;
+      if (showNew && di->m_IsNew == false) continue;
+
+      
+      std::cout << *di << std::endl;
+    }
+}
+
+
 std::string
 readContent(std::ifstream &file_input,
             const std::string &beg,
