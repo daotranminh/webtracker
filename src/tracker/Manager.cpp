@@ -1,0 +1,30 @@
+#include "tracker/Manager.hpp"
+#include "tracker/Tracker.hpp"
+#include "utilities/Configuration.hpp"
+
+void
+Manager::process()
+{
+  const TrackedSiteVec &trackedSites = Configuration::instance()->trackedSites();
+
+  for (TrackedSiteVec::const_iterator it = trackedSites.begin(); it != trackedSites.end(); ++it)
+    {
+      trackSingleSite(it->m_URL, it->m_Prefix);
+    }
+}
+
+
+
+void
+Manager::trackSingleSite(const std::string &url,
+                         const std::string &prefix)
+{
+  // ToDo: dynamically create corresponding Tracker based on the URL.
+  // For now, we just have a tracker for willhaben.at
+
+  Tracker tk(url);
+  Database newItems = tk.track(); // ToDo: zuverschenken!!!
+  Database oldItems(prefix);
+
+  // compare items to find the real new ones.
+}
