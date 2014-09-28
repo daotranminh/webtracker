@@ -26,6 +26,9 @@ private:
                  tree<HTML::Node>::iterator &it,
                  bool gratis);
 
+  bool
+  inIgnoreList(const std::string &url);
+
 private:
   const std::string m_URL;
 

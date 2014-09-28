@@ -1,4 +1,5 @@
 #include "tracker/Tracker.hpp"
+#include "utilities/Configuration.hpp"
 #include "utilities/HelperFunctions.hpp"
 #include "utilities/Logger.hpp"
 
@@ -126,6 +127,21 @@ Tracker::getOneDataItem(const std::string &content,
 
 
 
+bool
+Tracker::inIgnoreList(const std::string &url)
+{
+  const std::vector<std::string> & ignoreList = Configuration::instance()->ignoreList();
+
+  for (std::vector<std::string>::const_iterator it = ignoreList.begin(); it != ignoreList.end(); ++it)
+    {
+      if (url.find(*it) != std::string::npos) return true;
+    }
+
+  return false;
+}
+
+
+
 DatabasePtr
 Tracker::track(bool gratis)
 {
@@ -143,7 +159,8 @@ Tracker::track(bool gratis)
           // ToDo: check for ignore list
 
           DataItemPtr di = getOneDataItem(content, it, gratis);
-          db->add(di);          
+          if (!inIgnoreList(di->m_URL))
+            db->add(di);
         }
     }
 

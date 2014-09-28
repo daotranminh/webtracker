@@ -58,12 +58,22 @@ public:
   trackedSites()
   { return m_TrackedSites; }
 
+  const std::vector<std::string>&
+  ignoreList()
+  { return m_IgnoreList; }
+
 private:
   Configuration();
   
   std::string
   readLine(const std::string& filename, 
 	   const std::string& key);
+
+  void
+  readDestination(const std::string &filename);
+
+  void
+  readIgnoreList(const std::string &filename);
   
 private:
   std::string m_PathRoot;
@@ -78,6 +88,8 @@ private:
   std::string m_EndPrice;
 
   TrackedSiteVec m_TrackedSites;
+
+  std::vector<std::string> m_IgnoreList;
 
   static Configuration* _instance;
 };

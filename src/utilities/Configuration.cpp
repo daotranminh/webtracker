@@ -58,19 +58,8 @@ Configuration::readLine(const std::string& filename, const std::string& key)
 
 
 void
-Configuration::readConfig(const std::string& filename)
+Configuration::readDestination(const std::string &filename)
 {
-  m_PathRoot     = readLine(filename, "PATH_ROOT");
-  m_PathDatabase = m_PathRoot + readLine(filename, "DIR_DATABASE");
-  m_BeginURL     = readLine(filename, "BEGINURL");
-  m_EndURL       = readLine(filename, "ENDURL");
-  m_BeginTitle   = readLine(filename, "BEGINTITLE");
-  m_EndTitle     = readLine(filename, "ENDTITLE");
-  m_BeginDesc    = readLine(filename, "BEGINDESC");
-  m_EndDesc      = readLine(filename, "ENDDESC");
-  m_BeginPrice   = readLine(filename, "BEGINPRICE");
-  m_EndPrice     = readLine(filename, "ENDPRICE");
-
   std::ifstream config_file(filename.c_str());
   if (config_file.is_open())
     {
@@ -95,4 +84,49 @@ Configuration::readConfig(const std::string& filename)
     {
       DBGERR(__FUNCTION__ << ": Cannot read configuration file: " << filename << "!")
     }
+}
+
+
+
+void
+Configuration::readIgnoreList(const std::string &filename)
+{
+  std::ifstream config_file(filename.c_str());
+  if (config_file.is_open())
+    {
+      std::string line;
+      while (config_file.good())
+	{
+	  std::getline(config_file, line);
+          std::size_t pos = line.find("IGNORE");
+          if (pos != std::string::npos)
+            {
+              std::string ignore = line.substr(pos + 7); // 7 == length("IGNORE") + 1
+              m_IgnoreList.push_back(ignore);
+            }
+        }
+    }
+  else
+    {
+      DBGERR(__FUNCTION__ << ": Cannot read configuration file: " << filename << "!")
+    }
+}
+
+
+void
+Configuration::readConfig(const std::string& filename)
+{
+  m_PathRoot     = readLine(filename, "PATH_ROOT");
+  m_PathDatabase = m_PathRoot + readLine(filename, "DIR_DATABASE");
+  m_BeginURL     = readLine(filename, "BEGINURL");
+  m_EndURL       = readLine(filename, "ENDURL");
+  m_BeginTitle   = readLine(filename, "BEGINTITLE");
+  m_EndTitle     = readLine(filename, "ENDTITLE");
+  m_BeginDesc    = readLine(filename, "BEGINDESC");
+  m_EndDesc      = readLine(filename, "ENDDESC");
+  m_BeginPrice   = readLine(filename, "BEGINPRICE");
+  m_EndPrice     = readLine(filename, "ENDPRICE");
+
+  readDestination(filename);
+  readIgnoreList(filename);
 }
