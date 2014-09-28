@@ -101,7 +101,6 @@ Tracker::getOneDataItem(const std::string &content,
               strReplace(str_price, "\n", "");
               strTrim(str_price);
               price = ::atof(str_price.c_str());
-              std::cout << price << std::endl;
             }
         }
       else
@@ -119,7 +118,7 @@ Tracker::getOneDataItem(const std::string &content,
           strTrim(desc);
         }
     }
-  
+
   DataItemPtr di = DataItemPtr(new DataItem(url, title, desc, price));
 
   return di;

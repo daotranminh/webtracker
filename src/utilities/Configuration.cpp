@@ -84,7 +84,6 @@ Configuration::readConfig(const std::string& filename)
               std::string link = line.substr(pos + 4); // 4 == length("URL") + 1
               std::getline(config_file, line);
               pos = line.find("PREFIX");
-              std::cout << line << std::endl;
               assert(pos != std::string::npos);
               std::string prefix = line.substr(pos + 7); // 7 == length("PREFIX") + 1
               TrackedSite ts(link, prefix);

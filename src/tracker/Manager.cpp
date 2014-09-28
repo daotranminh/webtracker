@@ -22,12 +22,16 @@ Manager::trackSingleSite(const std::string &url,
   // ToDo: dynamically create corresponding Tracker based on the URL.
   // For now, we just have a tracker for willhaben.at
 
+  bool gratis = false;
+  if (url.find("zu-verschenken") != std::string::npos) gratis = true;
+
   Tracker tk(url);
-  DatabasePtr newItems = tk.track(); // ToDo: zuverschenken!!!
+  DatabasePtr newItems = tk.track(gratis); // ToDo: zuverschenken!!!
   DatabasePtr oldItems = DatabasePtr(new Database(prefix));
 
   // compare items to find the real new ones.
   newItems->compare(oldItems);
   newItems->show(true);
+  newItems->setDatabaseName(prefix);
   newItems->writeDatabase();
 }

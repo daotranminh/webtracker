@@ -11,6 +11,9 @@ public:
   Database(const std::string &name = "");
 
   void
+  setDatabaseName(const std::string &name);
+
+  void
   add(const DataItemPtr &di);
 
   void
@@ -35,8 +38,8 @@ private:
               const std::string &end);
 
 private:
-  const std::string m_Name;
-  DataItemVec       m_DataItems;
+  std::string m_Name;
+  DataItemVec m_DataItems;
 };
 
 typedef boost::shared_ptr<Database> DatabasePtr;

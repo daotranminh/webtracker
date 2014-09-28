@@ -37,11 +37,11 @@ webtracker_SOURCES = \
 		webtracker.cpp
 
 webtracker_LDADD = \
+	$(top_builddir)/src/tracker/libtracker.la \
 	$(top_builddir)/src/html/libhtmlcxx.la \
 	$(top_builddir)/src/css/libcss_parser_pp.la \
 	$(top_builddir)/src/css/libcss_parser.la \
 	$(top_builddir)/src/utilities/libutilities.la \
-	$(top_builddir)/src/tracker/libtracker.la \
 	@LIBCURL@
 
 EXTRA_DIST = wingetopt.c COPYING

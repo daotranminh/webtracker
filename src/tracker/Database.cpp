@@ -8,6 +8,15 @@ Database::Database(const std::string &name)
   : m_Name(name)
 {
   if (m_Name != "") loadDatabase();
+
+}
+
+
+
+void
+Database::setDatabaseName(const std::string &name)
+{
+  m_Name = name;
 }
 
 
@@ -23,8 +32,9 @@ Database::add(const DataItemPtr &di)
 void
 Database::writeDatabase()
 {
-  std::ofstream file_db(m_Name.c_str());
   Configuration *config = Configuration::instance();
+  std::string filename = config->pathDatabase() + m_Name + ".txt";
+  std::ofstream file_db(filename.c_str());
 
   if (file_db.is_open())
     {
@@ -74,11 +84,8 @@ Database::compare(const DatabasePtr &db)
 {
     for (DataItemVec::const_iterator it = m_DataItems.begin(); it != m_DataItems.end(); ++it)
     {
-      if (db->exists(*it))
-        {
-          const DataItemPtr &di = *it;
-           di->m_IsNew = true;
-        }
+      const DataItemPtr &di = *it;
+      if (!db->exists(di)) di->m_IsNew = true;
     }
 }
 
@@ -93,15 +100,16 @@ Database::show(bool showNew)
       if (showNew && di->m_IsNew == false) continue;
 
       
-      std::cout << *di << std::endl;
+      std::cout << *di << std::endl
+                << "------------------------------------" << std::endl;
     }
 }
 
 
 std::string
-readContent(std::ifstream &file_input,
-            const std::string &beg,
-            const std::string &end)
+Database::readContent(std::ifstream &file_input,
+                      const std::string &beg,
+                      const std::string &end)
 {
   std::string content = "";
   std::string line;
@@ -116,6 +124,9 @@ readContent(std::ifstream &file_input,
       std::getline(file_input, line);
     }
 
+  // remove the last \n
+  content = content.substr(0, content.length() - 1);
+
   return content;
 }
 
@@ -123,7 +134,8 @@ readContent(std::ifstream &file_input,
 void
 Database::loadDatabase()
 {
-  std::ifstream file_db(m_Name.c_str());
+  std::string filename = Configuration::instance()->pathDatabase() + m_Name + ".txt";
+  std::ifstream file_db(filename.c_str());
 
   if (file_db.is_open())
     {
